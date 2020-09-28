@@ -6,6 +6,8 @@
 package knn;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.util.Random;
 import javax.swing.JOptionPane;
 
 /**
@@ -40,12 +42,15 @@ public class Window extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextNClases = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         jTextPuntos = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextKNeighbor = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jTextXK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,15 +76,21 @@ public class Window extends javax.swing.JFrame {
 
         jLabel1.setText("Coordenadas K:");
 
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 421, Short.MAX_VALUE)
+            .addGap(0, 680, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -87,7 +98,7 @@ public class Window extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Title 1", "Title 2"
+                "Distancia", "Clase"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -100,8 +111,19 @@ public class Window extends javax.swing.JFrame {
         });
 
         jButton2.setText("Limpiar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("# K:");
+        jLabel2.setText("# Clases:");
+
+        jTextNClases.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextNClasesKeyTyped(evt);
+            }
+        });
 
         jCheckBox1.setText("Agregar Puntos");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -118,35 +140,50 @@ public class Window extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("# K Neighbor ");
+
+        jTextKNeighbor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextKNeighborActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(218, 218, 218)
-                            .addComponent(jButton1)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButton2))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(4, 4, 4)
-                            .addComponent(jTextXK, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextYK, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(7, 7, 7)
-                            .addComponent(jLabel3)
-                            .addGap(10, 10, 10)
-                            .addComponent(jTextPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(26, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel1)
+                        .addGap(4, 4, 4)
+                        .addComponent(jTextXK, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextYK, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextNClases, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel3)
+                        .addGap(10, 10, 10)
+                        .addComponent(jTextPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextKNeighbor, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -161,24 +198,26 @@ public class Window extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jTextYK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextNClases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBox1)
                     .addComponent(jLabel3)
-                    .addComponent(jTextPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextKNeighbor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addGap(0, 1, Short.MAX_VALUE)))
+                            .addComponent(jButton2)
+                            .addComponent(jButton1))))
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextXKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextXKActionPerformed
@@ -190,7 +229,7 @@ public class Window extends javax.swing.JFrame {
         int num = 1;
         if(jTextXK.getText().length()>=num){
             evt.consume();
-            JOptionPane.showMessageDialog(rootPane, "Solo hasta 9");
+            JOptionPane.showMessageDialog(rootPane, "Solo positivos y hasta 9");
         }
     }//GEN-LAST:event_jTextXKKeyTyped
 
@@ -201,9 +240,9 @@ public class Window extends javax.swing.JFrame {
     private void jTextYKKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextYKKeyTyped
         // TODO add your handling code here:
         int num = 1;
-        if(jTextXK.getText().length()>=num){
+        if(jTextYK.getText().length()>=num){
             evt.consume();
-            JOptionPane.showMessageDialog(rootPane, "Solo hasta 9");
+            JOptionPane.showMessageDialog(rootPane, "Solo positivos y hasta 9");
         }
     }//GEN-LAST:event_jTextYKKeyTyped
 
@@ -214,12 +253,31 @@ public class Window extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         //------------------------->>>Aquí empieza la magía
+        //Validaciones
+        if(jTextXK.getText().isEmpty() || jTextYK.getText().isEmpty()){
+            JOptionPane.showMessageDialog( null ,"Ingresa una coordenada", "KNN",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int nClases = Integer.parseInt( jTextNClases.getText());
+        if(nClases >7){
+            JOptionPane.showMessageDialog( null ,"Ingresa un numero menor a 7", "KNN",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         int n = Integer.parseInt( jTextPuntos.getText());
         if(n<=0){
             JOptionPane.showMessageDialog( null ,"Ingresa un numero positivo", "KNN",JOptionPane.WARNING_MESSAGE);
             return;
         }
+        int kneighbor = Integer.parseInt(jTextKNeighbor.getText());
+        if(kneighbor < 0){
+            JOptionPane.showMessageDialog( null ,"Ingresa un numero positivo de K vecinos", "KNN",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        //setPuntos
         objectKNN.setN(n);
+        //set Clases
+        objectKNN.setNcolores(nClases);
+        //Agregamos N pares ordenados con un array de objetos.
         objectKNN.generarClases();
         dibujarClases();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -227,6 +285,35 @@ public class Window extends javax.swing.JFrame {
     private void jTextPuntosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextPuntosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextPuntosActionPerformed
+
+    private void jTextNClasesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextNClasesKeyTyped
+        // TODO add your handling code here:
+        int num = 1;
+        if(jTextNClases.getText().length()>=num){
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Solo clases hasta 7");
+        }
+    }//GEN-LAST:event_jTextNClasesKeyTyped
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        jPanel1.repaint();
+        jTextXK.setText("");
+        jTextYK.setText("");
+        jTextNClases.setText("");
+        jTextPuntos.setText("");
+        jTextKNeighbor.setText("");
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextKNeighborActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextKNeighborActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextKNeighborActionPerformed
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jPanel1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -254,7 +341,7 @@ public class Window extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -270,25 +357,111 @@ public class Window extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextKNeighbor;
+    private javax.swing.JTextField jTextNClases;
     private javax.swing.JTextField jTextPuntos;
     private javax.swing.JTextField jTextXK;
     private javax.swing.JTextField jTextYK;
     // End of variables declaration//GEN-END:variables
     
     //--------------------------> Implementación de métodos
+
     private void dibujarClases(){
-        
+        int xK = Integer.parseInt(jTextXK.getText());
+        int yK = Integer.parseInt(jTextYK.getText());
         java.awt.Graphics g = jPanel1.getGraphics();
         g.setColor(Color.BLACK);
-        for(knn.CoordenadasClases p:objectKNN.getClases())
+        
+        //Random rand = new Random();
+        //int rango = 0;
+        int separador = (int) Math.floorDiv(680,objectKNN.getNcolores());
+        //System.out.println("INIT SEPARATOOOR: "+separador+" Clases: "+ objectKNN.getNcolores());
+        int pasos = separador;
+        int count = 0;
+        // generacion de pares ordenados con ArrayList de objetos y pintar en grupos
+        for(knn.CoordenadasClases p:objectKNN.getClases()){
+            //g.setColor(new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
+            //cambiarColor();
+            //rango = rand.nextInt(objectKNN.getNcolores());
+            //mientras que la coordenada x no sea menor ejecuta los pasos hasta llegar a su grupo
+            while(!(p.getX() < separador)){
+                    separador += pasos;
+                    count+=1;
+            }
+            switch(count){
+                case 0:
+                    g.setColor(Color.GREEN);
+                    break;
+                case 1:
+                    g.setColor(Color.BLUE);
+                    break;
+                case 2:
+                    g.setColor(Color.YELLOW);
+                    break;
+                case 3:
+                    g.setColor(Color.MAGENTA);
+                    break;
+                case 4:
+                    g.setColor(Color.CYAN);
+                    break;
+                case 5:
+                    g.setColor(Color.GRAY);
+                    break;
+                case 6:
+                    g.setColor(Color.PINK);
+                    break;
+            }
+            p.setC(count);
+            System.out.println(p.toString());
+            /*
+            for(int j=0;j < objectKNN.getNcolores();j++){ //esto si me quebro la cabeza
+                System.out.println("X : "+p.getX()+" Y SEPARADOR: "+separador);
+                if(p.getX()< separador){
+                    switch(count){
+                        case 0:
+                            g.setColor(Color.GREEN);
+                            break;
+                        case 1:
+                            g.setColor(Color.BLUE);
+                            break;
+                        case 2:
+                            g.setColor(Color.YELLOW);
+                            break;
+                        case 3:
+                            g.setColor(Color.MAGENTA);
+                            break;
+                        case 4:
+                            g.setColor(Color.CYAN);
+                            break;
+                        case 5:
+                            g.setColor(Color.GRAY);
+                            break;
+                        case 6:
+                            g.setColor(Color.PINK);
+                            break;
+                    }
+                }else{
+                    separador = separador + pasos;
+                    count++;
+                }
+            }*/
+            //System.out.println("Cooooooooount:"+count);
+            count = 0;
+            separador = pasos;
             g.fillOval(p.getX(), p.getY(), 5, 5);
-                            //posX, Pos Y,tamX,tamY
+            
+        }
+            //posX, Pos Y,tamX,tamY
         //g.fillOval(-2, 100, 4, 4);
         //g.fillOval(419, 100, 4, 4);
+        g.setColor(Color.RED);
+        g.fillOval(xK, yK, 5, 5);
     }
-
+    
+    
+    
 }
