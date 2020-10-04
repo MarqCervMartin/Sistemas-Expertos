@@ -5,12 +5,15 @@
  */
 package kmeans;
 
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author martin
  */
 public class Window extends javax.swing.JFrame {
-
+     KMeans objectKM = new KMeans();
     /**
      * Creates new form Window
      */
@@ -28,10 +31,11 @@ public class Window extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextPuntos = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextAtractores = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
+        jButtonGenerate = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,24 +54,36 @@ public class Window extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jButtonGenerate.setText("Generar");
+        jButtonGenerate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGenerateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(41, 41, 41))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(16, 16, 16)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(41, 41, 41))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(16, 16, 16)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jTextAtractores, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                            .addComponent(jTextPuntos)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(jButtonGenerate)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -76,12 +92,14 @@ public class Window extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(433, Short.MAX_VALUE))
+                    .addComponent(jTextAtractores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addComponent(jButtonGenerate)
+                .addContainerGap(369, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -90,6 +108,39 @@ public class Window extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonGenerateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGenerateActionPerformed
+        // TODO add your handling code here:
+        int NumPuntos, NumAtractores;
+        NumPuntos = Integer.parseInt( jTextPuntos.getText());
+        NumAtractores = Integer.parseInt(jTextAtractores.getText());
+        //---------------->Validaciones
+        if(jTextPuntos.getText().isEmpty()){
+            JOptionPane.showMessageDialog( null ,"Ingresa numero de puntos", "K-Means",JOptionPane.WARNING_MESSAGE);
+            return;
+        }else{
+            if(NumPuntos <= 0){
+                JOptionPane.showMessageDialog( null ,"Ingresa numero de puntos positivos", "K-Means",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        }
+        if(jTextAtractores.getText().isEmpty()){
+                JOptionPane.showMessageDialog( null ,"Ingresa atractores", "K-Means",JOptionPane.WARNING_MESSAGE);
+                return;
+        }else{
+            if(NumAtractores <= 0){
+                JOptionPane.showMessageDialog( null ,"Ingresa numero de atractores positivos", "K-Means",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        }
+        
+        objectKM.setnPoints(NumPuntos);
+        //set Clases
+        //objectKM.setNcolores(nClases);
+        //Agregamos N pares ordenados con un array de objetos.
+        objectKM.generarClases();
+        dibujarClases();
+    }//GEN-LAST:event_jButtonGenerateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -127,10 +178,20 @@ public class Window extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonGenerate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextAtractores;
+    private javax.swing.JTextField jTextPuntos;
     // End of variables declaration//GEN-END:variables
+
+    private void dibujarClases() {
+        java.awt.Graphics g = jPanel1.getGraphics();
+        g.setColor(Color.BLACK);
+        for(Coordenadas par:objectKM.getClases()){
+            System.out.println(par.toString());
+            g.fillOval(par.getX(), par.getY(), 5, 5);
+        }
+    }
 }
