@@ -7,8 +7,10 @@ package knn;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,13 +18,19 @@ import javax.swing.JOptionPane;
  */
 public class Window extends javax.swing.JFrame {
 
+    KNN objectKNN = new KNN();
+    DefaultTableModel modelo;
+    
     /**
      * Creates new form Window
      */
     public Window() {
         initComponents();
+        modelo = new DefaultTableModel();
+        modelo.addColumn("Distancia");
+        modelo.addColumn("Clase(i)");
+        this.jTable1.setModel(modelo);
     }
-    KNN objectKNN = new KNN();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -280,6 +288,8 @@ public class Window extends javax.swing.JFrame {
         //Agregamos N pares ordenados con un array de objetos.
         objectKNN.generarClases();
         dibujarClases();
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextPuntosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextPuntosActionPerformed
@@ -303,6 +313,10 @@ public class Window extends javax.swing.JFrame {
         jTextNClases.setText("");
         jTextPuntos.setText("");
         jTextKNeighbor.setText("");
+        int fila = jTable1.getRowCount();
+        for(int i=fila-1;i>=0;i--){
+            modelo.removeRow(i);
+        }
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -371,8 +385,14 @@ public class Window extends javax.swing.JFrame {
     //--------------------------> Implementación de métodos
 
     private void dibujarClases(){
-        int xK = Integer.parseInt(jTextXK.getText());
-        int yK = Integer.parseInt(jTextYK.getText());
+        objectKNN.setXNeighbor(Integer.parseInt(jTextXK.getText()));
+        objectKNN.setYNeighbor(Integer.parseInt(jTextYK.getText()));
+        ArrayList<Float> impresion = new ArrayList<>();
+        int[] frecuencias = new int[objectKNN.getNcolores()];
+        for (int i = 0; i < objectKNN.getNcolores(); i++){
+            frecuencias[i] = 0;
+        }
+        
         java.awt.Graphics g = jPanel1.getGraphics();
         g.setColor(Color.BLACK);
         
@@ -383,40 +403,47 @@ public class Window extends javax.swing.JFrame {
         int pasos = separador;
         int count = 0;
         // generacion de pares ordenados con ArrayList de objetos y pintar en grupos
-        for(knn.CoordenadasClases p:objectKNN.getClases()){
+        for(CoordenadasClases par:objectKNN.getClases()){
             //g.setColor(new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
             //cambiarColor();
             //rango = rand.nextInt(objectKNN.getNcolores());
             //mientras que la coordenada x no sea menor ejecuta los pasos hasta llegar a su grupo
-            while(!(p.getX() < separador)){
+            while(!(par.getX() < separador)){
                     separador += pasos;
                     count+=1;
             }
             switch(count){
                 case 0:
                     g.setColor(Color.GREEN);
+                    frecuencias[0] +=1;
                     break;
                 case 1:
                     g.setColor(Color.BLUE);
+                    frecuencias[1] +=1;
                     break;
                 case 2:
                     g.setColor(Color.YELLOW);
+                    frecuencias[2] +=1;
                     break;
                 case 3:
                     g.setColor(Color.MAGENTA);
+                    frecuencias[3] +=1;
                     break;
                 case 4:
                     g.setColor(Color.CYAN);
+                    frecuencias[4] +=1;
                     break;
                 case 5:
                     g.setColor(Color.GRAY);
+                    frecuencias[5] +=1;
                     break;
                 case 6:
                     g.setColor(Color.PINK);
+                    frecuencias[6] +=1;
                     break;
             }
-            p.setC(count);
-            System.out.println(p.toString());
+            par.setC(count);
+            System.out.println(par.toString());
             /*
             for(int j=0;j < objectKNN.getNcolores();j++){ //esto si me quebro la cabeza
                 System.out.println("X : "+p.getX()+" Y SEPARADOR: "+separador);
@@ -452,16 +479,26 @@ public class Window extends javax.swing.JFrame {
             //System.out.println("Cooooooooount:"+count);
             count = 0;
             separador = pasos;
-            g.fillOval(p.getX(), p.getY(), 5, 5);
+            g.fillOval(par.getX(), par.getY(), 5, 5);
             
         }
             //posX, Pos Y,tamX,tamY
         //g.fillOval(-2, 100, 4, 4);
         //g.fillOval(419, 100, 4, 4);
         g.setColor(Color.RED);
-        g.fillOval(xK, yK, 5, 5);
+        g.fillOval(objectKNN.getXNeighbor(), objectKNN.getYNeighbor(), 5, 5);
+        
+        objectKNN.imprimirTabla();
+        
+        System.out.print("Frecuencias: ");
+        for (int i = 0; i < frecuencias.length; i++){
+            System.out.print(" ,"+frecuencias[i]);
+        }
+        System.out.println("");
+        
+        
     }
     
-    
+   
     
 }
