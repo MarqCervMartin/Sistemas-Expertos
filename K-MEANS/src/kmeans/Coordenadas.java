@@ -5,17 +5,21 @@
  */
 package kmeans;
 
+import java.awt.Color;
+
 /**
  *
  * @author martin
  */
 public class Coordenadas {
-    private int x,y,c;
+    private int x,y,nC;
+    private Color c;
     
-    public Coordenadas(int x, int y, int c){
+    public Coordenadas(int x, int y, Color c, int nC){
         this.x = x;
         this.y = y;
         this.c = c;
+        this.nC = nC;
     }
 
     public int getX() {
@@ -34,17 +38,28 @@ public class Coordenadas {
         this.y = y;
     }
 
-    public int getC() {
+    public Color getC() {
         return c;
     }
 
-    public void setC(int c) {
+    public void setC(Color c) {
         this.c = c;
+    }
+
+    public int getnC() {
+        return nC;
+    }
+
+    public void setnC(int nC) {
+        this.nC = nC;
     }
 
     @Override
     public String toString() {
-        return "Coordenadas{" + "x=" + x + ", y=" + y + ", c=" + c + '}';
+        return "Coordenadas{" + "x=" + x + ", y=" + y + ", nC=" + nC + ", c=" + c + '}';
     }
+
+
+    
     
 }

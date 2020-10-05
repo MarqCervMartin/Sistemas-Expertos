@@ -6,7 +6,13 @@
 package kmeans;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.Collections;
+import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
+import javax.swing.plaf.ComponentUI;
 
 /**
  *
@@ -14,11 +20,13 @@ import javax.swing.JOptionPane;
  */
 public class Window extends javax.swing.JFrame {
      KMeans objectKM = new KMeans();
+     int countAtractores=1;
     /**
      * Creates new form Window
      */
     public Window() {
         initComponents();
+        
     }
 
     /**
@@ -36,6 +44,7 @@ public class Window extends javax.swing.JFrame {
         jTextAtractores = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jButtonGenerate = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,11 +52,18 @@ public class Window extends javax.swing.JFrame {
 
         jLabel2.setText("# Atractores:");
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 153, 0)));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 624, Short.MAX_VALUE)
+            .addGap(0, 622, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -58,6 +74,13 @@ public class Window extends javax.swing.JFrame {
         jButtonGenerate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGenerateActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Clasificar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -81,7 +104,9 @@ public class Window extends javax.swing.JFrame {
                             .addComponent(jTextPuntos)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
-                        .addComponent(jButtonGenerate)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(jButtonGenerate))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -99,7 +124,9 @@ public class Window extends javax.swing.JFrame {
                     .addComponent(jTextAtractores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addComponent(jButtonGenerate)
-                .addContainerGap(369, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(326, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -133,15 +160,78 @@ public class Window extends javax.swing.JFrame {
                 return;
             }
         }
-        
+        //le mandamos numero de puntos
         objectKM.setnPoints(NumPuntos);
-        //set Clases
-        //objectKM.setNcolores(nClases);
+        //le mandamos numero de atractores
+        objectKM.setnAtractores(NumAtractores);
         //Agregamos N pares ordenados con un array de objetos.
-        objectKM.generarClases();
+        objectKM.generarPuntos();
         dibujarClases();
     }//GEN-LAST:event_jButtonGenerateActionPerformed
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+        // TODO add your handling code here:
+        //System.out.println(countAtractores++);
+        if(objectKM.getnAtractores() >= countAtractores){
+            //lienzo con graphics
+            Graphics g = jPanel1.getGraphics();
+            //seleccionar color
+            JColorChooser chooser = new JColorChooser();
+            //guardamos ese color
+            //Color col = chooser.showDialog(null,  "Clase "+ countAtractores, Color.GREEN);
+            Color col = chooser.showDialog(null, "Clase", Color.GREEN);
+            g.setColor(col);//establecemos el color
+            g.fillOval(evt.getX(), evt.getY(), 10, 10);//pintamos el punto
+            countAtractores++;//contador de atractores
+            objectKM.añadirAtractor(evt.getX(), evt.getY(), col);//añadimos al array un atractor
+            System.out.println("Atractor Array: "+objectKM.getAtractores());
+            //System.out.println("Tamaño atractores lista:"+objectKM.getAtractores().size());
+        }
+        
+    }//GEN-LAST:event_jPanel1MousePressed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(countAtractores > objectKM.getnAtractores()){
+            //System.out.println("OK");
+            //crear un array auxiliar del array anterior para saber si no hay cambios
+            /*
+            ArrayList<Coordenadas> a = new ArrayList<>();
+            a = (ArrayList)objectKM.getAtractores();
+            System.out.println("Array 2: "+a);
+            */
+            
+            //Primero asignamos clases
+            int min = -1;
+            java.awt.Graphics g = jPanel1.getGraphics();
+            float aux=0;
+            for(Coordenadas puntos:objectKM.getClases()){
+                for(Coordenadas atractores: objectKM.getAtractores()){
+                    objectKM.getArrayDistancias().add(objectKM.euclidiana(puntos.getX(), puntos.getY(), atractores.getX(), atractores.getY()));
+                }
+                //System.out.println(objectKM.getArrayDistancias());
+                aux = Collections.min(objectKM.getArrayDistancias());
+                min = objectKM.getArrayDistancias().indexOf(aux); 
+                //asignamos clase al punto
+                puntos.setnC(min);
+                puntos.setC(objectKM.getAtractores().get(min).getC());
+                g.setColor(puntos.getC());
+                g.fillOval(puntos.getX(), puntos.getY(), 5, 5);
+                System.out.println(puntos);
+                objectKM.getArrayDistancias().clear();
+                min=-1;
+            }
+            /*
+            do{
+                objectKM.distancias();
+                objectKM.centroides();
+            }while(1==1);
+            */
+        }else{
+            JOptionPane.showMessageDialog( null ,"Completa los atractores", "K-Means",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -178,6 +268,7 @@ public class Window extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonGenerate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -194,4 +285,6 @@ public class Window extends javax.swing.JFrame {
             g.fillOval(par.getX(), par.getY(), 5, 5);
         }
     }
+    
+    
 }
