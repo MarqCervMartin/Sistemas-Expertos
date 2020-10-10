@@ -12,10 +12,11 @@ import java.awt.Color;
  * @author martin
  */
 public class Coordenadas {
-    private int x,y,nC;
+    private float x,y;
+    private int nC;
     private Color c;
     
-    public Coordenadas(int x, int y, Color c, int nC){
+    public Coordenadas(float x, float y, Color c, int nC){
         this.x = x;
         this.y = y;
         this.c = c;
@@ -23,18 +24,18 @@ public class Coordenadas {
     }
 
     public int getX() {
-        return x;
+        return (int) x;
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
     public int getY() {
-        return y;
+        return (int) y;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 

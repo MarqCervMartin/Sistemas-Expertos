@@ -7,6 +7,7 @@ package kmeans;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JColorChooser;
@@ -230,7 +231,7 @@ public class Window extends javax.swing.JFrame {
             g.fillOval(evt.getX(), evt.getY(), 10, 10);//pintamos el punto
             objectKM.añadirAtractor(evt.getX(), evt.getY(), g.getColor(), countAtractores-1);//añadimos al array un atractor
             countAtractores++;//contador de atractores
-            System.out.println("Atractor Array: "+objectKM.getAtractores());
+            System.out.println("Atractores : "+objectKM.getAtractores());
             //System.out.println("Tamaño atractores lista:"+objectKM.getAtractores().size());
         }
         
@@ -268,10 +269,16 @@ public class Window extends javax.swing.JFrame {
                 objectKM.getArrayDistancias().clear();
                 
             }*/
-            
-            asignarClase();
-            //calculamos centroides
-            calcularCentroides();
+            boolean t;
+            int numIteraciones=0;
+            do{
+                numIteraciones++;
+                asignarClase();
+                //calculamos centroides
+                t = calcularCentroides();
+            }while(t);
+            JOptionPane.showMessageDialog( null ,"¡Se completo! en "+numIteraciones+" iteraciones", "K-Means",JOptionPane.WARNING_MESSAGE);
+            return;
             /*
             do{
                 objectKM.distancias();
@@ -341,8 +348,9 @@ public class Window extends javax.swing.JFrame {
         java.awt.Graphics g = jPanel1.getGraphics();
         g.setColor(Color.BLACK);
         for(Coordenadas par:objectKM.getClases()){
-            System.out.println(par.toString());
+            //System.out.println(par.toString());
             g.fillOval(par.getX(), par.getY(), 5, 5);
+            
         }
     }
     
@@ -350,6 +358,7 @@ public class Window extends javax.swing.JFrame {
         int min = -1;
         java.awt.Graphics g = jPanel1.getGraphics();
         float aux=0;//obtener el valor minimo de las distancias
+        int listado=0;
         for(Coordenadas puntos:objectKM.getClases()){
             for(Coordenadas atractores: objectKM.getAtractores()){
                 objectKM.getArrayDistancias().add(objectKM.euclidiana(puntos.getX(), puntos.getY(), atractores.getX(), atractores.getY()));
@@ -362,13 +371,14 @@ public class Window extends javax.swing.JFrame {
             puntos.setC(objectKM.getAtractores().get(min).getC());
             g.setColor(puntos.getC());
             g.fillOval(puntos.getX(), puntos.getY(), 5, 5);
-            System.out.println(puntos);
+            listado++;
+            System.out.println(listado+" "+puntos);
             objectKM.getArrayDistancias().clear();
                 
         }
     }
     
-    public void calcularCentroides(){
+    public boolean calcularCentroides(){
         ArrayList<Coordenadas> centroides = new ArrayList<>();
         centroides = (ArrayList)objectKM.getAtractores();
         //System.out.println("Array 2: "+centroides);
@@ -384,13 +394,11 @@ public class Window extends javax.swing.JFrame {
         
         //ArrayList<Integer> nClases = new ArrayList<>();
         
-        
-        int nClases = 0;
         //recorremos todas las clases y comprobamos si tienen la misma clase, si lo tienen
         //se suma un uno a el array de contadores
         for(Coordenadas puntos:objectKM.getClases()){
             for(int i=0; i< centroides.size();i++){
-                System.out.println("punto : "+puntos.getnC()+" atractor: "+centroides.get(i).getnC());
+                //System.out.println("punto : "+puntos.getnC()+" atractor: "+centroides.get(i).getnC());
                 if(puntos.getnC() == centroides.get(i).getnC()){
                     acumulador = centroides.get(i).getX()+puntos.getX();
                     centroides.get(i).setX(acumulador);
@@ -401,12 +409,55 @@ public class Window extends javax.swing.JFrame {
                 }
             }
         }
-        System.out.println(centroides);
+        System.out.println("Centroides:"+centroides);
+        /*Comprobamos resultados de los contadores, aquí podemos imprimir los centroides
         System.out.println("\n");
         for(int j = 0;j<centroides.size();j++){
             System.out.print(arrayContadores[j]+" ");
         }
-        objectKM.setCentroides(centroides);
+        */
+        
+        boolean t;
+        t = pintarNuevoCentroide(centroides, arrayContadores);
+        //objectKM.setCentroides(centroides);
+        
+        
+        return t;
     }
     
+    public boolean pintarNuevoCentroide(ArrayList<Coordenadas> nuevoCentroide, int contadores[]){
+        java.awt.Graphics g = jPanel1.getGraphics();
+        int countBooleans = 0; //contador de booleanos, sí el atractor viejo es igual a el nuevo atractor
+        for(int i=0;i<nuevoCentroide.size();i++){
+            nuevoCentroide.get(i).setX((float)nuevoCentroide.get(i).getX()/contadores[i]);
+            nuevoCentroide.get(i).setY((float)nuevoCentroide.get(i).getY()/contadores[i]);
+            g.setColor(nuevoCentroide.get(i).getC());
+            g.fillOval(nuevoCentroide.get(i).getX(), nuevoCentroide.get(i).getY(), 15, 15);
+            
+            if(nuevoCentroide.get(i).getX() == objectKM.getAtractores().get(i).getX()
+                    && nuevoCentroide.get(i).getY() == objectKM.getAtractores().get(i).getY()){
+                
+                countBooleans++;
+            }
+            /*
+            objectKM.getAtractores().get(i).setX(nuevoCentroide.get(i).getX());
+            objectKM.getAtractores().get(i).setY(nuevoCentroide.get(i).getY());
+            */
+        }
+        //System.out.println("CounBooleans = "+countBooleans+" Tamaño Atrac="+nuevoCentroide.size());
+        //antes de mandar true o false, actualizamos los atractores.
+        for(int j=0;j<nuevoCentroide.size();j++){
+            objectKM.getAtractores().get(j).setX(nuevoCentroide.get(j).getX());
+            objectKM.getAtractores().get(j).setY(nuevoCentroide.get(j).getY());
+            System.out.println(" Actualizado X: "+objectKM.getAtractores().get(j).getX()+"  Y:"+objectKM.getAtractores().get(j).getY());
+        }
+        if(countBooleans == nuevoCentroide.size()){
+            //aqui me equivoque por eso no daba XD era al revez por la condicíon del while
+            //return true
+            return false;
+        }else{
+            //return false;
+            return true;
+        }
+    }
 }

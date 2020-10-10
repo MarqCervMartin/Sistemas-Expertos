@@ -107,4 +107,5 @@ public class KMeans {
         centroides.clear();
         System.out.println("Memoria Limpiada!");
     }
+    
 }
