@@ -19,6 +19,7 @@ public class KMeans {
     private ArrayList<Coordenadas> clases = new ArrayList<>();
     private ArrayList<Coordenadas> atractores = new ArrayList<>();
     private ArrayList<Float> arrayDistancias = new ArrayList<>();
+    private ArrayList<Coordenadas> centroides = new ArrayList<>();
 
     private int nPoints, nAtractores;
 
@@ -61,6 +62,15 @@ public class KMeans {
     public void setArrayDistancias(ArrayList<Float> arrayDistancias) {
         this.arrayDistancias = arrayDistancias;
     }
+
+    public ArrayList<Coordenadas> getCentroides() {
+        return centroides;
+    }
+
+    public void setCentroides(ArrayList<Coordenadas> centroides) {
+        this.centroides = centroides;
+    }
+    
     
     
     
@@ -79,8 +89,8 @@ public class KMeans {
     public void claseColor(Color c){
         
     }
-    public void añadirAtractor(int x, int y, Color c){
-        atractores.add(new Coordenadas(x, y, c, -1));
+    public void añadirAtractor(int x, int y, Color c, int nC){
+        atractores.add(new Coordenadas(x, y, c, nC));
     }
     
     public float euclidiana(int x1, int y1, int x2, int y2){
@@ -89,5 +99,12 @@ public class KMeans {
     }
     public void centroides(){
         
+    }
+    public void clear(){
+        clases.clear();
+        atractores.clear();
+        arrayDistancias.clear();
+        centroides.clear();
+        System.out.println("Memoria Limpiada!");
     }
 }

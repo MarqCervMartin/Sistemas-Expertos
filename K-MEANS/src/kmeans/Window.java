@@ -45,6 +45,7 @@ public class Window extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jButtonGenerate = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +85,13 @@ public class Window extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Limpiar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,7 +114,8 @@ public class Window extends javax.swing.JFrame {
                         .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1)
-                            .addComponent(jButtonGenerate))))
+                            .addComponent(jButtonGenerate)
+                            .addComponent(jButton2))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -126,7 +135,9 @@ public class Window extends javax.swing.JFrame {
                 .addComponent(jButtonGenerate)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addContainerGap(283, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -158,6 +169,11 @@ public class Window extends javax.swing.JFrame {
             if(NumAtractores <= 0){
                 JOptionPane.showMessageDialog( null ,"Ingresa numero de atractores positivos", "K-Means",JOptionPane.WARNING_MESSAGE);
                 return;
+            }else{
+                if(NumAtractores > 7){
+                    JOptionPane.showMessageDialog( null ,"Ingresa numero de atractores menor a 7", "K-Means",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
             }
         }
         //le mandamos numero de puntos
@@ -174,15 +190,46 @@ public class Window extends javax.swing.JFrame {
         if(objectKM.getnAtractores() >= countAtractores){
             //lienzo con graphics
             Graphics g = jPanel1.getGraphics();
+            switch(countAtractores){
+                case 1:
+                    //System.out.println(countAtractores);
+                    g.setColor(Color.GREEN);//establecemos el color
+                    break;
+                case 2:
+                    //System.out.println(countAtractores);
+                    g.setColor(Color.BLUE);//establecemos el color
+                    break;
+                case 3:
+                    //System.out.println(countAtractores);
+                    g.setColor(Color.YELLOW);//establecemos el color
+                    break;
+                case 4:
+                    //System.out.println(countAtractores);
+                    g.setColor(Color.MAGENTA);//establecemos el color
+                    break;
+                case 5:
+                    //System.out.println(countAtractores);
+                    g.setColor(Color.CYAN);//establecemos el color
+                    break;
+                case 6:
+                    //System.out.println(countAtractores);
+                    g.setColor(Color.GRAY);//establecemos el color
+                    break;
+                case 7:
+                    //System.out.println(countAtractores);
+                    g.setColor(Color.PINK);//establecemos el color
+                    break;
+            }
+            
             //seleccionar color
-            JColorChooser chooser = new JColorChooser();
+            //JColorChooser chooser = new JColorChooser();
             //guardamos ese color
             //Color col = chooser.showDialog(null,  "Clase "+ countAtractores, Color.GREEN);
-            Color col = chooser.showDialog(null, "Clase", Color.GREEN);
-            g.setColor(col);//establecemos el color
+            //Color col = chooser.showDialog(null, "Clase", Color.GREEN);
+            //g.setColor(col);//establecemos el color
             g.fillOval(evt.getX(), evt.getY(), 10, 10);//pintamos el punto
+            objectKM.añadirAtractor(evt.getX(), evt.getY(), g.getColor(), countAtractores-1);//añadimos al array un atractor
             countAtractores++;//contador de atractores
-            objectKM.añadirAtractor(evt.getX(), evt.getY(), col);//añadimos al array un atractor
             System.out.println("Atractor Array: "+objectKM.getAtractores());
             //System.out.println("Tamaño atractores lista:"+objectKM.getAtractores().size());
         }
@@ -201,6 +248,7 @@ public class Window extends javax.swing.JFrame {
             */
             
             //Primero asignamos clases
+            /*
             int min = -1;
             java.awt.Graphics g = jPanel1.getGraphics();
             float aux=0;
@@ -218,8 +266,12 @@ public class Window extends javax.swing.JFrame {
                 g.fillOval(puntos.getX(), puntos.getY(), 5, 5);
                 System.out.println(puntos);
                 objectKM.getArrayDistancias().clear();
-                min=-1;
-            }
+                
+            }*/
+            
+            asignarClase();
+            //calculamos centroides
+            calcularCentroides();
             /*
             do{
                 objectKM.distancias();
@@ -231,6 +283,13 @@ public class Window extends javax.swing.JFrame {
             return;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        jPanel1.repaint();
+        objectKM.clear();
+        countAtractores = 1;
+    }//GEN-LAST:event_jButton2ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -269,6 +328,7 @@ public class Window extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonGenerate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -286,5 +346,67 @@ public class Window extends javax.swing.JFrame {
         }
     }
     
+    public void asignarClase(){
+        int min = -1;
+        java.awt.Graphics g = jPanel1.getGraphics();
+        float aux=0;//obtener el valor minimo de las distancias
+        for(Coordenadas puntos:objectKM.getClases()){
+            for(Coordenadas atractores: objectKM.getAtractores()){
+                objectKM.getArrayDistancias().add(objectKM.euclidiana(puntos.getX(), puntos.getY(), atractores.getX(), atractores.getY()));
+            }
+            //System.out.println(objectKM.getArrayDistancias());
+            aux = Collections.min(objectKM.getArrayDistancias());
+            min = objectKM.getArrayDistancias().indexOf(aux); 
+            //asignamos clase al punto
+            puntos.setnC(min);
+            puntos.setC(objectKM.getAtractores().get(min).getC());
+            g.setColor(puntos.getC());
+            g.fillOval(puntos.getX(), puntos.getY(), 5, 5);
+            System.out.println(puntos);
+            objectKM.getArrayDistancias().clear();
+                
+        }
+    }
+    
+    public void calcularCentroides(){
+        ArrayList<Coordenadas> centroides = new ArrayList<>();
+        centroides = (ArrayList)objectKM.getAtractores();
+        //System.out.println("Array 2: "+centroides);
+        int arrayContadores[] = new int[centroides.size()];//contadores de numero de clases
+        //inicializamos nuestros centroides en cordenadas X y Y, junto con los contadores en cero
+        for(int i=0;i<centroides.size();i++){
+            centroides.get(i).setX(0);
+            centroides.get(i).setY(0);
+            //centroide.setnC(0);
+            arrayContadores[i] = 0;
+        }//System.out.println("Centroides: "+centroides);
+        int acumulador = 0;
+        
+        //ArrayList<Integer> nClases = new ArrayList<>();
+        
+        
+        int nClases = 0;
+        //recorremos todas las clases y comprobamos si tienen la misma clase, si lo tienen
+        //se suma un uno a el array de contadores
+        for(Coordenadas puntos:objectKM.getClases()){
+            for(int i=0; i< centroides.size();i++){
+                System.out.println("punto : "+puntos.getnC()+" atractor: "+centroides.get(i).getnC());
+                if(puntos.getnC() == centroides.get(i).getnC()){
+                    acumulador = centroides.get(i).getX()+puntos.getX();
+                    centroides.get(i).setX(acumulador);
+                    acumulador = 0;
+                    acumulador = centroides.get(i).getY()+puntos.getY();
+                    centroides.get(i).setY(acumulador);
+                    arrayContadores[i] = arrayContadores[i]+1;
+                }
+            }
+        }
+        System.out.println(centroides);
+        System.out.println("\n");
+        for(int j = 0;j<centroides.size();j++){
+            System.out.print(arrayContadores[j]+" ");
+        }
+        objectKM.setCentroides(centroides);
+    }
     
 }
