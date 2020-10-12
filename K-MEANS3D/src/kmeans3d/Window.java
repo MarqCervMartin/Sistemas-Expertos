@@ -7,13 +7,14 @@ package kmeans3d;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author martin
  */
 public class Window extends javax.swing.JFrame {
-
+    KMeans3D clase3D = new KMeans3D();//instancia de nuestro modelo 3D
     /**
      * Creates new form Window
      */
@@ -33,7 +34,7 @@ public class Window extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextPuntos = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextAtractores = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -55,6 +56,11 @@ public class Window extends javax.swing.JFrame {
         jButton2.setText("Clasificar");
 
         jButton3.setText("Limpiar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,7 +76,7 @@ public class Window extends javax.swing.JFrame {
                         .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextPuntos, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
-                            .addComponent(jTextField2)))
+                            .addComponent(jTextAtractores)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(99, 99, 99)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -89,7 +95,7 @@ public class Window extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextAtractores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
@@ -104,14 +110,55 @@ public class Window extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int NumPuntos = Integer.parseInt( jTextPuntos.getText());
-        KMeans3D clase3D = new KMeans3D();
+        int NumPuntos, NumAtractores;
+        int a = 0;
+        int b = 0;
+        
+        if(jTextPuntos.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Ingrese numero de puntos", "K-Means", JOptionPane.WARNING_MESSAGE);
+            return;
+        }else{
+            NumPuntos = Integer.parseInt( jTextPuntos.getText());
+            if(NumPuntos <= 0){
+                JOptionPane.showMessageDialog( null ,"Ingresa numero de puntos positivos", "K-Means",JOptionPane.WARNING_MESSAGE);
+                return;
+            }else{
+                a = NumPuntos;
+            }
+        }
+        if(jTextAtractores.getText().isEmpty()){
+                JOptionPane.showMessageDialog( null ,"Ingresa atractores", "K-Means",JOptionPane.WARNING_MESSAGE);
+                return;
+        }else{
+            NumAtractores = Integer.parseInt(jTextAtractores.getText());
+            if(NumAtractores <= 0){
+                JOptionPane.showMessageDialog( null ,"Ingresa numero de atractores positivos", "K-Means",JOptionPane.WARNING_MESSAGE);
+                return;
+            }else{
+                if(NumAtractores > 7){
+                    JOptionPane.showMessageDialog( null ,"Ingresa numero de atractores menor a 7", "K-Means",JOptionPane.WARNING_MESSAGE);
+                    return;
+                }else{
+                    b = NumAtractores;
+                }
+            }
+        }
+        //Creación de nuestra clase 3D
         try {
-            clase3D.Open(NumPuntos);
+            clase3D.generar(a, b);
         } catch (Exception ex) {
             Logger.getLogger(Window.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Clear");
+        jTextPuntos.setText("");
+        jTextAtractores.setText("");
+        //JOptionPane.showMessageDialog( null ,"Ingresa numero de atractores menor a 7", "K-Means",JOptionPane.WARNING_MESSAGE);
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,7 +201,7 @@ public class Window extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextAtractores;
     private javax.swing.JTextField jTextPuntos;
     // End of variables declaration//GEN-END:variables
 }
