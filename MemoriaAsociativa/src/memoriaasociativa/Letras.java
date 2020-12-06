@@ -233,9 +233,18 @@ public class Letras extends javax.swing.JFrame {
     }
     public void matriz(){
         for(int i=0; i<count.length;i++){
-            System.out.print(count[i]); 
-            if(i%4 == 0){
-              System.out.println("");
+            
+            
+            if(i== 0){
+              System.out.print(count[i]);
+            }else{
+                if(i%4 == 0){
+                  
+                  System.out.println("");  
+                  System.out.print(count[i]);
+                }else{
+                  System.out.print(count[i]);
+                }
             }
             
         }
