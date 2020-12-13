@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">AppICO</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Sistemas Expertos</string>
+    <string name="nav_header_subtitle">Horarios Algoritmos Genéticos</string>
+    <string name="nav_header_desc">ICO</string>
+    <string name="action_settings">ICO</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Horarios</string>
+    <string name="menu_slideshow">Equivalencias</string>
+
+
+    <string-array name="semestres">
+        <item>Primero   TM</item>
+        <item>Primero   TV</item>
+        <item>Segundo   TM</item>
+        <item>Segundo   TV</item>
+        <item>Tercero   TM</item>
+        <item>Tercero   TV</item>
+        <item>Cuarto    TM</item>
+        <item>Cuarto    TV</item>
+        <item>Quinto    TM</item>
+        <item>Quinto    TV</item>
+        <item>Sexto     TM</item>
+        <item>Sexto     TV</item>
+        <item>Septimo   TM</item>
+        <item>Septimo   TV</item>
+        <item>Octavo    TM</item>
+        <item>Noveno    TM</item>
+        <item>Optativas</item>
+    </string-array>
+    <string name="title_activity_resumen_horario">ResumenHorario</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+</resources>

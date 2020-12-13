@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Formulario">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/colorPrimary"
+                app:cardCornerRadius="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:drawableStart="@drawable/name"
+                            android:drawablePadding="8dp"
+                            android:hint="Nombre"
+                            android:inputType="textPersonName|textCapWords"
+                            android:background="@android:color/white"
+                            android:drawableLeft="@drawable/name" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/surname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="10dp"
+                            android:drawableStart="@drawable/apellido"
+                            android:drawablePadding="8dp"
+                            android:hint="Apellidos"
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:background="@android:color/white"
+                            android:drawableLeft="@drawable/apellido" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:ems="10">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ncuenta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:hint="Número de cuenta"
+                            android:layout_marginBottom="10dp"
+                            android:drawablePadding="8dp"
+                            android:drawableStart="@drawable/cuenta"
+                            android:background="@android:color/white"
+                            android:inputType="phone"
+                            android:drawableLeft="@drawable/cuenta" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/semestre" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:text="Semestre">
+
+                        </TextView>
+                        <Spinner
+                            android:id="@+id/semestrePrincipal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="8dp"
+                            android:hint="Semestre"
+                            android:drawableStart="@drawable/semestre"
+                            android:drawableLeft="@drawable/semestre" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tutor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:drawablePadding="8dp"
+                            android:hint="Tutor"
+                            android:inputType="none"
+                            android:background="@android:color/white"
+                            android:drawableStart="@drawable/tutor"
+                            android:drawableLeft="@drawable/tutor" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_round"
+                android:text="Añadir otra materia" />
+
+        </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/añadirMateria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:fabAlignmentMode="end"
+        app:backgroundTint="@color/colorPrimaryDark"
+        />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nextSummary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_next"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@id/añadirMateria"
+        app:maxImageSize="35dp"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
