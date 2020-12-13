@@ -47,7 +47,7 @@
                             android:hint="Nombre"
                             android:inputType="textPersonName|textCapWords"
                             android:background="@android:color/white"
-                            />
+                            android:drawableLeft="@drawable/name" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -67,7 +67,7 @@
                             android:hint="Apellidos"
                             android:inputType="textMultiLine|textCapSentences"
                             android:background="@android:color/white"
-                            />
+                            android:drawableLeft="@drawable/apellido" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -88,7 +88,8 @@
                             android:drawablePadding="8dp"
                             android:drawableStart="@drawable/cuenta"
                             android:background="@android:color/white"
-                            android:inputType="phone"/>
+                            android:inputType="phone"
+                            android:drawableLeft="@drawable/cuenta" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                     <LinearLayout
@@ -116,7 +117,8 @@
                             android:layout_height="wrap_content"
                             android:drawablePadding="8dp"
                             android:hint="Semestre"
-                            android:drawableStart="@drawable/semestre"/>
+                            android:drawableStart="@drawable/semestre"
+                            android:drawableLeft="@drawable/semestre" />
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -133,7 +135,8 @@
                             android:hint="Tutor"
                             android:inputType="none"
                             android:background="@android:color/white"
-                            android:drawableStart="@drawable/tutor"/>
+                            android:drawableStart="@drawable/tutor"
+                            android:drawableLeft="@drawable/tutor" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -158,14 +161,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:fabAlignmentMode="end"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="@color/colorPrimaryDark"
         />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nextSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/colorAccent"
+        android:src="@drawable/ic_next"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@id/añadirMateria"
         app:maxImageSize="35dp"
         />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
