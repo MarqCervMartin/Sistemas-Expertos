@@ -92,9 +92,29 @@
                             android:drawableLeft="@drawable/cuenta" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tutor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:drawablePadding="8dp"
+                            android:hint="Tutor"
+                            android:inputType="none"
+                            android:background="@android:color/white"
+                            android:drawableStart="@drawable/tutor"
+                            android:drawableLeft="@drawable/tutor" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingTop="8dp"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         android:orientation="horizontal">
@@ -120,27 +140,14 @@
                             android:drawableStart="@drawable/semestre"
                             android:drawableLeft="@drawable/semestre" />
                     </LinearLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
+                    <com.diegodobelo.expandingview.ExpandingList
+                        android:id="@+id/expanding_list_main"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp">
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/tutor"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:drawablePadding="8dp"
-                            android:hint="Tutor"
-                            android:inputType="none"
-                            android:background="@android:color/white"
-                            android:drawableStart="@drawable/tutor"
-                            android:drawableLeft="@drawable/tutor" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/TxtComprobar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -150,6 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginVertical="90dp"
                 android:background="@drawable/button_round"
                 android:text="Añadir otra materia" />
 
