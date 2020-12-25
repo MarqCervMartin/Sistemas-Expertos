@@ -165,4 +165,24 @@ public class Asignatura {
     public void setDuracion_dia_dos(float duracion_dia_dos) {
         this.duracion_dia_dos = duracion_dia_dos;
     }
+
+    @Override
+    public String toString() {
+        return "Asignatura{" +
+                "id=" + id +
+                ", matricula='" + matricula + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", creditos=" + creditos +
+                ", turno='" + turno + '\'' +
+                ", docente_id=" + docente_id +
+                ", dia_uno='" + dia_uno + '\'' +
+                ", hora_inicio_dia_uno='" + hora_inicio_dia_uno + '\'' +
+                ", hora_salida_dia_uno='" + hora_salida_dia_uno + '\'' +
+                ", duracion_dia_uno=" + duracion_dia_uno +
+                ", dia_dos='" + dia_dos + '\'' +
+                ", hora_inicio_dia_dos='" + hora_inicio_dia_dos + '\'' +
+                ", hora_salida_dia_dos='" + hora_salida_dia_dos + '\'' +
+                ", duracion_dia_dos=" + duracion_dia_dos +
+                '}';
+    }
 }

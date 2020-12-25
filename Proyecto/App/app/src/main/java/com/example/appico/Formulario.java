@@ -25,10 +25,16 @@ import java.util.Objects;
 public class Formulario extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     //lista expandible
     private ExpandingList mExpandingList;
+    //bd local
     DBLocalEstatica db = new DBLocalEstatica();
     int contadorMaterias = 0;
     ArrayList<String> Semestres = new ArrayList<>();
+    //componentes
     TextView comprobar;
+    EditText nombreEtxt;
+    EditText apellidosEtxt;
+    EditText numeroDeCuentaEtxt;
+    EditText tutorEtxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,12 @@ public class Formulario extends AppCompatActivity implements AdapterView.OnItemS
         semestrePrincipal.setOnItemSelectedListener(this);
         //floating action next
         FloatingActionButton next = findViewById(R.id.nextSummary);
+        //componentees
         comprobar = (TextView) findViewById(R.id.TxtComprobar);
+        nombreEtxt = (EditText) findViewById(R.id.name);
+        apellidosEtxt = (EditText) findViewById(R.id.surname);
+        numeroDeCuentaEtxt = (EditText) findViewById(R.id.ncuenta);
+        tutorEtxt = (EditText) findViewById(R.id.tutor);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +64,20 @@ public class Formulario extends AppCompatActivity implements AdapterView.OnItemS
                 }else{
                     Toast.makeText(getApplicationContext(),"Seleccionaste "+contadorMaterias+" materias", Toast.LENGTH_SHORT).show();
                     comprobar.setText(Semestres.toString());
+                    //envio de formulario a load
+                    if(nombreEtxt.getText().toString().isEmpty() || apellidosEtxt.getText().toString().isEmpty() || numeroDeCuentaEtxt.getText().toString().isEmpty()
+                            || tutorEtxt.getText().toString().isEmpty()){
+                        Toast.makeText(getApplicationContext(),"Completa los campos", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Intent load = new Intent(Formulario.this, Load.class);
+                        load.putExtra("Name", nombreEtxt.getText().toString());
+                        load.putExtra("Surname", apellidosEtxt.getText().toString());
+                        load.putExtra("Cuenta", numeroDeCuentaEtxt.getText().toString());
+                        load.putExtra("Tutor", tutorEtxt.getText().toString());
+                        load.putExtra("ListaMaterias", Semestres);
+                        startActivity(load);
+                    }
+
                 }
 
             }
